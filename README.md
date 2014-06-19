@@ -44,3 +44,7 @@ Key Features:
 
 
 This framework is intended to be backbone of any of local shop’s websites. Although one could easily integrate this with stripe or any other provider currently it just emails everything. It is setup to work well with mailgun but any other emailing system can be used as well and configured via the web.config.
+
+
+This is loosley based off of the Microsoft sample:
+http://www.asp.net/mvc/tutorials/mvc-music-store - the ASP.NET MVC 3 music store. Unlike that sample though this app is alot more realistic and more generic. It adds a place where the order will go to (email) and authentication and authorization and many other things that make this application more suitable as a real world app.
