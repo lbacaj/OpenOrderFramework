@@ -1,0 +1,29 @@
+﻿@model OpenOrderFramework.Models.Item
+
+@{
+    ViewBag.Title = "Item - " + Model.Name;
+}
+
+<h2>@Model.Name</h2>
+
+<p>
+    <img alt="@Model.Name" src="@Model.ItemPictureUrl" />
+</p>
+
+<div id="item-details">
+    <p>
+        <em>Genre:</em>
+        @Model.Catagorie.Name
+    </p>
+    <p>
+        <em>Price:</em>
+        @String.Format("{0:F}", Model.Price)
+    </p>
+    <p class="button">
+        @Html.ActionLink("Add to cart", "AddToCart",
+        "ShoppingCart", new { id = Model.ID }, "")
+    </p>
+</div>
+
+
+

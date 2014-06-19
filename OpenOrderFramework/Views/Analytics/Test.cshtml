@@ -1,0 +1,133 @@
+﻿<label><input type="checkbox"> Sort values</label>
+<svg class="chart"></svg>
+
+<style>
+    .bar {
+        fill: steelblue;
+    }
+
+        .bar:hover {
+            fill: brown;
+        }
+
+    .axis {
+        font: 10px sans-serif;
+    }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+    .x.axis path {
+        display: none;
+    }
+</style>
+
+<script>
+    //http://jamessdixon.wordpress.com/2014/02/11/analysis-of-health-inspection-data-using-f/#comments
+    //http://jamessdixon.wordpress.com/category/d3/
+    var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+    var x = d3.scale.ordinal()
+        .rangeRoundBands([0, width], .1);
+
+    var y = d3.scale.linear()
+        .range([height, 0]);
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .ticks(10, "%");
+
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    //http://localhost:3057/Analysis/AverageScoreByMonth/
+    //http://localhost:3057/Analysis/AverageScoreByDay/
+    //http://localhost:3057/Analysis/AverageScoreByWeek/
+    //http://localhost:3057/Analysis/AverageScoreByInspector/
+    //http://localhost:3057/Analysis/AverageScoreByEstablishmentType/
+
+    $.ajax({
+        url: "@Url.Action("GetDataAsJson", "Analytics")",
+        dataType: "json",
+        success: function (data) {
+            data.forEach(function (d) {
+                d.OrderCount = +d.OrderCount;
+            });
+
+            x.domain(data.map(function (d) { return d.OrderDate; }));
+            y.domain([0, d3.max(data, function (d) { return d.OrderCount; })]);
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+              .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("OrderCount");
+
+            svg.selectAll(".bar")
+                .data(data)
+              .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function (d) { return x(d.OrderDate); })
+                .attr("width", x.rangeBand())
+                .attr("y", function (d) { return y(d.OrderCount); })
+                .attr("height", function (d) { return height - y(d.OrderCount); });
+
+            d3.select("input").on("change", change);
+
+            var sortTimeout = setTimeout(function () {
+                d3.select("input").property("checked", true).each(change);
+            }, 2000);
+
+            function change() {
+                clearTimeout(sortTimeout);
+
+                // Copy-on-write since tweens are evaluated after a delay.
+                var x0 = x.domain(data.sort(this.checked
+                    ? function (a, b) { return b.OrderCount - a.OrderCount; }
+                    : function (a, b) { return d3.ascending(a.OrderDate, b.OrderDate); })
+                    .map(function (d) { return d.OrderDate; }))
+                    .copy();
+
+                var transition = svg.transition().duration(750),
+                    delay = function (d, i) { return i * 50; };
+
+                transition.selectAll(".bar")
+                    .delay(delay)
+                    .attr("x", function (d) { return x0(d.OrderDate); });
+
+                transition.select(".x.axis")
+                    .call(xAxis)
+                  .selectAll("g")
+                    .delay(delay);
+            };
+        },
+        error: function (e) {
+            alert("error");
+        }
+    });
+
+</script>
+

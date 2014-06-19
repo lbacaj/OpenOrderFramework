@@ -1,0 +1,163 @@
+﻿@model OpenOrderFramework.Models.Order
+
+@{
+    ViewBag.Title = "Address And Payment";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="~/Scripts/card.js"></script>
+<link rel="stylesheet" href="~/Content/card.css">
+<script>
+    $('.active form').card({ container: $('.card-wrapper') })
+    $('form').card({
+        // a selector or jQuery object for the container
+        // where you want the card to appear
+        container: '.card-wrapper', // *required*
+        numberInput: 'input#number', // optional — default input[name="number"]
+        expiryInput: 'input#expiry', // optional — default input[name="expiry"]
+        cvcInput: 'input#cvc', // optional — default input[name="cvc"]
+        nameInput: 'input#name', // options - defaults input[name="name"]
+
+        width: 200, // optional — default 350px
+        formatting: true // optional - default true
+    });
+</script>
+
+<!--<div class="col-lg-4">
+    <div class="demo-container">
+       
+
+        <div class="form-container active">
+            <form action="">
+                <input placeholder="Card number" type="text" name="number">
+                <input placeholder="Full name" type="text" name="name">
+                <input placeholder="MM/YY" type="text" name="expiry">
+                <input placeholder="CVC" type="text" name="cvc">
+            </form>
+        </div>
+
+        <div class="card-wrapper"></div>
+    </div>
+</div>-->
+
+<div class="col-lg-10">
+  <div class="well bs-component">
+    @using (Html.BeginForm(new { @class = "form-horizontal" }))
+    {
+       <h2>Address And Payment</h2>
+        <fieldset>
+            <legend>Shipping Information</legend>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "First Name" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Last Name" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Street Address" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "City" } })
+                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "State" } })
+                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PostalCode, htmlAttributes: new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Zip Code" } })
+                    @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Country" } })
+                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Phone Number" } })
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBoxFor(model => model.SaveInfo, new { @type = "checkbox" })Save my Info for next time.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreditCard, htmlAttributes: new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.EditorFor(model => model.CreditCard, new { htmlAttributes = new { @class = "form-control", @placeholder = "Credit Card Number" } })
+                    @Html.ValidationMessageFor(model => model.CreditCard, "", new { @class = "text-danger" })
+                    <span class="help-block">For security the credit card is not stored in our system.</span>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Experation, htmlAttributes: new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.EditorFor(model => model.Experation)
+                    @Html.ValidationMessageFor(model => model.Experation, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="select" class="col-lg-2 control-label">Credit Card Type</label>
+                <div class="col-lg-10">
+                    <select class="form-control" id="select">
+                        @foreach (var ccType in ViewBag.CreditCardTypes)
+                        {
+                            <option>@ccType</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            
+            <br>
+
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-8">
+                    <button type="submit" class="btn btn-primary">Submit Order &raquo;</button>
+                </div>
+            </div>
+        </fieldset>
+    }
+  </div>
+</div>
+
+@section Scripts {
+   @Scripts.Render("~/bundles/jqueryval")
+}
