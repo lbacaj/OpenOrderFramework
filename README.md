@@ -12,6 +12,7 @@ Although it was originally designed for local restaurants to receive orders from
 
 
 Key Features:
+
     1)	Designed as an easy way to setup an ASP.NET MVC 5 website/store that can easily take orders. 
     
     2)	Users can place order as a guest or signup and their info will be saved to a SQL Server express database.
