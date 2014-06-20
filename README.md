@@ -3,7 +3,8 @@ OpenOrderFramework
 
 A lightweight ASP.NET MVC 5 cart/order framework. It can be customized to handel any type of online shopping. Users can place an order and that order is sent via e-mail to the store's owners
 
-Find out more at http://louiebacaj.com
+Find out more at http://louiebacaj.com/a-lightweight-shopping-cart-web-application-in-asp-net-mvc-5/#
+http://Louiebacaj.com
 
 Most local shops don’t have the fancy infrastructure of say Amazon, but they still want to setup a simple online order system. They want an email with an order that they ship or deliver and they want to actually just charge the order in their own store and don’t want some fancy credit card integration (although I will add that option at some point and is easy enough to add). This web application provides the features needed to place an order online and emails it out with the very basic information about that order. 
 
