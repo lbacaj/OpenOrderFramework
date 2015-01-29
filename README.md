@@ -1,6 +1,20 @@
 OpenOrderFramework
 ==================
 
+Please note that this uses Asp.net Identity Code First migration which means the database is generated from the code. To do this the first time simply compile the app and run: 
+
+    update-database
+    
+From the package manager console and then run the app. 
+
+To login as an admin try the following
+
+    user: admin@gmail.com
+    password: abc123
+    
+(Please change that password if your going to do anything other than use this for fun.)
+
+
 A lightweight ASP.NET MVC 5 cart/order framework. It can be customized to handel any type of online shopping. Users can place an order and that order is sent via e-mail to the store's owners
 
 Find out more at http://louiebacaj.com/a-lightweight-shopping-cart-web-application-in-asp-net-mvc-5/#
