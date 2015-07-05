@@ -11,7 +11,7 @@ using System.Web.Mvc.Html;
 
 namespace OpenOrderFramework.Models
 {
-    [Bind(Exclude = "ID")]
+
     public class Item
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
